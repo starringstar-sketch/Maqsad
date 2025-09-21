@@ -1,0 +1,338 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Daily Fitness Routine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        .card {
+            background-color: #1a202c;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .card.completed {
+            background-color: #10151c;
+            border-color: #0d9488;
+        }
+        .card.completed .check-icon {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .progress-bar {
+            height: 12px;
+            background-color: #374151;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            transition: width 0.5s ease-in-out;
+        }
+        .check-icon {
+            transform: scale(0);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1a202c;
+            border: 1px solid #374151;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            z-index: 50;
+            min-width: 300px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 40;
+        }
+        .hidden {
+            display: none;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .exercise-link {
+            color: #2dd4bf;
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+        }
+        .exercise-link:hover {
+            color: #5eead4;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+
+    <!-- Message Box for Reset Confirmation -->
+    <div id="message-box" class="hidden">
+        <div class="overlay"></div>
+        <div class="message-box">
+            <h3 class="text-xl font-bold text-center mb-4">Reset Progress</h3>
+            <p class="text-center mb-6">Are you sure you want to reset all your daily progress? This action cannot be undone.</p>
+            <div class="flex justify-center space-x-4">
+                <button id="confirm-reset" class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition">Yes, Reset</button>
+                <button id="cancel-reset" class="px-6 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg font-semibold transition">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container p-4">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-teal-300 mb-2">My Daily Fitness Routine</h1>
+            <p class="text-lg text-gray-400">Strength, Flexibility & Conditioning</p>
+        </header>
+
+        <!-- Overall Progress -->
+        <div class="mb-8 p-4 bg-gray-800 rounded-xl shadow-lg flex items-center justify-between">
+            <div>
+                <span id="progress-text" class="text-xl font-semibold text-teal-400">0/6 Completed</span>
+            </div>
+            <div class="w-2/3">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Morning Routine Section -->
+        <h2 class="text-2xl font-bold text-teal-200 mb-4 mt-8">Morning Routine (5:00 AM - 7:30 AM)</h2>
+        <div class="space-y-6">
+            <!-- Morning Warm-Up Card -->
+            <div id="morning-warmup" class="card rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center mb-4">
+                    <h3 class="text-2xl font-bold flex-grow">Dynamic Warm-Up (5:00 - 5:15)</h3>
+                    <svg class="w-8 h-8 text-teal-400 check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.536-1.636-1.636a.75.75 0 1 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>
+                </div>
+                <div class="text-gray-300 leading-relaxed text-base">
+                    <ul class="list-disc pl-5">
+                        <li>**Hydration:** Drink a large glass of water.</li>
+                        <li>**Joint Rotations:** Gently rotate neck, shoulders, hips, and ankles.</li>
+                        <li><a href="https://www.google.com/search?q=Cat-Cow+Stretch" target="_blank" class="exercise-link">**Cat-Cow Stretch:**</a> Focus on spine mobility.</li>
+                        <li><a href="https://www.google.com/search?q=Bird-Dog+exercise" target="_blank" class="exercise-link">**Bird-Dog:**</a> Strengthens core and glutes.</li>
+                        <li><a href="https://www.google.com/search?q=Glute+Bridges" target="_blank" class="exercise-link">**Glute Bridges:**</a> Activates and strengthens the glutes.</li>
+                    </ul>
+                </div>
+                <button class="toggle-btn w-full py-3 bg-teal-600 hover:bg-teal-700 rounded-lg font-semibold transition mt-4" data-routine-id="morning-warmup">Mark as Complete</button>
+            </div>
+            
+            <!-- Morning Strength Card -->
+            <div id="morning-strength" class="card rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center mb-4">
+                    <h3 class="text-2xl font-bold flex-grow">Strength Training & Calisthenics (5:15 - 6:45)</h3>
+                    <svg class="w-8 h-8 text-teal-400 check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.536-1.636-1.636a.75.75 0 1 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>
+                </div>
+                <div class="text-gray-300 leading-relaxed text-base">
+                    <ul class="list-disc pl-5">
+                        <li><a href="https://www.google.com/search?q=Bodyweight+Squats" target="_blank" class="exercise-link">**Bodyweight Squats:**</a> 3 sets of 15-20 reps.</li>
+                        <li><a href="https://www.google.com/search?q=Walking+Lunges" target="_blank" class="exercise-link">**Walking Lunges:**</a> 3 sets of 10-12 reps per leg.</li>
+                        <li><a href="https://www.google.com/search?q=Single-Leg+RDLs" target="_blank" class="exercise-link">**Single-Leg RDLs:**</a> 3 sets of 10 reps per leg.</li>
+                        <li><a href="https://www.google.com/search?q=Push-Ups" target="_blank" class="exercise-link">**Push-Ups:**</a> 3 sets to failure.</li>
+                        <li><a href="https://www.google.com/search?q=Inverted+Rows" target="_blank" class="exercise-link">**Inverted Rows:**</a> 3 sets to failure.</li>
+                        <li><a href="https://www.google.com/search?q=Plank+exercise" target="_blank" class="exercise-link">**Plank:**</a> 3 sets, hold for 60 seconds.</li>
+                        <li><a href="https://www.google.com/search?q=Leg+Raises" target="_blank" class="exercise-link">**Leg Raises:**</a> 3 sets of 15 reps.</li>
+                    </ul>
+                </div>
+                <button class="toggle-btn w-full py-3 bg-teal-600 hover:bg-teal-700 rounded-lg font-semibold transition mt-4" data-routine-id="morning-strength">Mark as Complete</button>
+            </div>
+            
+            <!-- Morning Cool-Down Card -->
+            <div id="morning-cooldown" class="card rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center mb-4">
+                    <h3 class="text-2xl font-bold flex-grow">Stretching & Cool-Down (6:45 - 7:30)</h3>
+                    <svg class="w-8 h-8 text-teal-400 check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.536-1.636-1.636a.75.75 0 1 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>
+                </div>
+                <div class="text-gray-300 leading-relaxed text-base">
+                    <ul class="list-disc pl-5">
+                        <li><a href="https://www.google.com/search?q=Standing+Hip+Flexor+Stretch" target="_blank" class="exercise-link">**Standing Hip Flexor Stretch:**</a> Hold for 30 seconds per leg.</li>
+                        <li><a href="https://www.google.com/search?q=Pigeon+Pose" target="_blank" class="exercise-link">**Pigeon Pose:**</a> Hold for 30 seconds per leg.</li>
+                        <li><a href="https://www.google.com/search?q=Lying+Spinal+Twist" target="_blank" class="exercise-link">**Lying Spinal Twist:**</a> Hold for 30 seconds per side.</li>
+                        <li><a href="https://www.google.com/search?q=Hamstring+Stretch" target="_blank" class="exercise-link">**Hamstring Stretch:**</a> Hold for 30 seconds per leg.</li>
+                        <li><a href="https://www.google.com/search?q=Quadriceps+Stretch" target="_blank" class="exercise-link">**Quadriceps Stretch:**</a> Hold for 30 seconds per leg.</li>
+                    </ul>
+                </div>
+                <button class="toggle-btn w-full py-3 bg-teal-600 hover:bg-teal-700 rounded-lg font-semibold transition mt-4" data-routine-id="morning-cooldown">Mark as Complete</button>
+            </div>
+        </div>
+
+        <!-- Evening Routine Section -->
+        <h2 class="text-2xl font-bold text-teal-200 mb-4 mt-8">Evening Routine (6:00 PM - 7:00 PM)</h2>
+        <div class="space-y-6">
+            <!-- Evening Warm-Up Card -->
+            <div id="evening-warmup" class="card rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center mb-4">
+                    <h3 class="text-2xl font-bold flex-grow">Warm-Up & Mobility (6:00 - 6:10)</h3>
+                    <svg class="w-8 h-8 text-teal-400 check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.536-1.636-1.636a.75.75 0 1 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>
+                </div>
+                <div class="text-gray-300 leading-relaxed text-base">
+                    <ul class="list-disc pl-5">
+                        <li><a href="https://www.google.com/search?q=Jumping+Jacks" target="_blank" class="exercise-link">**Light Cardio:**</a> Jumping jacks or jogging in place for 5 minutes.</li>
+                        <li><a href="https://www.google.com/search?q=Bodyweight+Squats" target="_blank" class="exercise-link">**Bodyweight Squats:**</a> 10 repetitions.</li>
+                        <li><a href="https://www.google.com/search?q=Leg+Swings" target="_blank" class="exercise-link">**Leg Swings:**</a> 10 swings in each direction per leg.</li>
+                    </ul>
+                </div>
+                <button class="toggle-btn w-full py-3 bg-teal-600 hover:bg-teal-700 rounded-lg font-semibold transition mt-4" data-routine-id="evening-warmup">Mark as Complete</button>
+            </div>
+            
+            <!-- Evening Core Card -->
+            <div id="evening-core" class="card rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center mb-4">
+                    <h3 class="text-2xl font-bold flex-grow">Core & Posterior Chain (6:10 - 6:40)</h3>
+                    <svg class="w-8 h-8 text-teal-400 check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.536-1.636-1.636a.75.75 0 1 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>
+                </div>
+                <div class="text-gray-300 leading-relaxed text-base">
+                    <ul class="list-disc pl-5">
+                        <li><a href="https://www.google.com/search?q=Plank+Variations" target="_blank" class="exercise-link">**Plank Variations:**</a> Standard and side planks, 30-60 seconds each.</li>
+                        <li><a href="https://www.google.com/search?q=Supermans+exercise" target="_blank" class="exercise-link">**Supermans:**</a> 3 sets of 15 reps.</li>
+                        <li><a href="https://www.google.com/search?q=Bird-Dog+exercise" target="_blank" class="exercise-link">**Bird-Dog:**</a> 3 sets of 10-15 reps per side.</li>
+                        <li><a href="https://www.google.com/search?q=Reverse+Crunches" target="_blank" class="exercise-link">**Reverse Crunches:**</a> 3 sets of 15-20 reps.</li>
+                    </ul>
+                </div>
+                <button class="toggle-btn w-full py-3 bg-teal-600 hover:bg-teal-700 rounded-lg font-semibold transition mt-4" data-routine-id="evening-core">Mark as Complete</button>
+            </div>
+            
+            <!-- Evening Stretching Card -->
+            <div id="evening-stretch" class="card rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center mb-4">
+                    <h3 class="text-2xl font-bold flex-grow">Deep Stretching & Recovery (6:40 - 7:00)</h3>
+                    <svg class="w-8 h-8 text-teal-400 check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.536-1.636-1.636a.75.75 0 1 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>
+                </div>
+                <div class="text-gray-300 leading-relaxed text-base">
+                    <ul class="list-disc pl-5">
+                        <li><a href="https://www.google.com/search?q=Kneeling+Hip+Flexor+Stretch" target="_blank" class="exercise-link">**Kneeling Hip Flexor Stretch:**</a> Hold for 30-45 seconds per leg.</li>
+                        <li><a href="https://www.google.com/search?q=Pigeon+Pose" target="_blank" class="exercise-link">**Pigeon Pose:**</a> Hold for 1 minute per leg.</li>
+                        <li><a href="https://www.google.com/search?q=Lying+Spinal+Twist" target="_blank" class="exercise-link">**Lying Spinal Twist:**</a> Hold for 30-45 seconds per side.</li>
+                        <li><a href="https://www.google.com/search?q=Seated+Hamstring+Stretch" target="_blank" class="exercise-link">**Seated Hamstring Stretch:**</a> Hold for 30-45 seconds.</li>
+                    </ul>
+                </div>
+                <button class="toggle-btn w-full py-3 bg-teal-600 hover:bg-teal-700 rounded-lg font-semibold transition mt-4" data-routine-id="evening-stretch">Mark as Complete</button>
+            </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="mt-8 text-center">
+            <button id="reset-btn" class="px-6 py-3 bg-red-700 hover:bg-red-800 text-white rounded-lg font-semibold transition-all">Reset All Progress</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const routineCards = document.querySelectorAll('.card');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const resetButton = document.getElementById('reset-btn');
+            const messageBox = document.getElementById('message-box');
+            const confirmButton = document.getElementById('confirm-reset');
+            const cancelButton = document.getElementById('cancel-reset');
+            const totalTasks = routineCards.length;
+
+            function updateProgress() {
+                const completedTasks = JSON.parse(localStorage.getItem('completedRoutine') || '[]');
+                const completedCount = completedTasks.length;
+                const progressPercentage = (completedCount / totalTasks) * 100;
+                progressFill.style.width = `${progressPercentage}%`;
+                progressText.textContent = `${completedCount}/${totalTasks} Completed`;
+            }
+
+            function loadProgress() {
+                const completedTasks = JSON.parse(localStorage.getItem('completedRoutine') || '[]');
+                routineCards.forEach(card => {
+                    const routineId = card.id;
+                    const toggleBtn = card.querySelector('.toggle-btn');
+                    if (completedTasks.includes(routineId)) {
+                        card.classList.add('completed');
+                        toggleBtn.textContent = 'Completed';
+                        toggleBtn.classList.remove('bg-teal-600', 'hover:bg-teal-700');
+                        toggleBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    } else {
+                        card.classList.remove('completed');
+                        toggleBtn.textContent = 'Mark as Complete';
+                        toggleBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                        toggleBtn.classList.add('bg-teal-600', 'hover:bg-teal-700');
+                    }
+                });
+                updateProgress();
+            }
+
+            function saveProgress(routineId, isCompleted) {
+                const completedTasks = JSON.parse(localStorage.getItem('completedRoutine') || '[]');
+                if (isCompleted) {
+                    if (!completedTasks.includes(routineId)) {
+                        completedTasks.push(routineId);
+                    }
+                } else {
+                    const index = completedTasks.indexOf(routineId);
+                    if (index > -1) {
+                        completedTasks.splice(index, 1);
+                    }
+                }
+                localStorage.setItem('completedRoutine', JSON.stringify(completedTasks));
+                updateProgress();
+            }
+
+            routineCards.forEach(card => {
+                const toggleBtn = card.querySelector('.toggle-btn');
+                toggleBtn.addEventListener('click', () => {
+                    const isCompleted = card.classList.toggle('completed');
+                    saveProgress(card.id, isCompleted);
+                    toggleBtn.textContent = isCompleted ? 'Completed' : 'Mark as Complete';
+                    if (isCompleted) {
+                        toggleBtn.classList.remove('bg-teal-600', 'hover:bg-teal-700');
+                        toggleBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    } else {
+                        toggleBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                        toggleBtn.classList.add('bg-teal-600', 'hover:bg-teal-700');
+                    }
+                });
+            });
+
+            resetButton.addEventListener('click', () => {
+                messageBox.classList.remove('hidden');
+            });
+
+            confirmButton.addEventListener('click', () => {
+                localStorage.removeItem('completedRoutine');
+                loadProgress();
+                messageBox.classList.add('hidden');
+            });
+
+            cancelButton.addEventListener('click', () => {
+                messageBox.classList.add('hidden');
+            });
+            
+            loadProgress();
+        });
+    </script>
+</body>
+</html>
